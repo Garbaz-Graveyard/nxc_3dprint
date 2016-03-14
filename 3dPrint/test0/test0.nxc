@@ -1,0 +1,56 @@
+#define FWD_TIME 1000
+#define REV_TIME 1000
+
+task main()
+{
+	int motor = 0;
+	int prevSensorRead = 0;
+	
+	SetSensor(IN_1, SENSOR_TOUCH);
+	
+	while(1)
+	{
+		if(SENSOR_1 && !prevSensorRead)
+		{
+			motor++;
+			motor %= 3;
+		}
+		prevSensorRead = SENSOR_1;
+		
+		
+		if(ButtonPressed(BTNLEFT, 0))
+		{
+			switch(motor)
+			{
+				case 0:
+					OnFwd(OUT_A, 50);
+					break;
+				case 1:
+					OnFwd(OUT_B, 50);
+					break;
+				case 2:
+					OnFwd(OUT_C, 50);
+					break;
+			}
+		}
+		else if(ButtonPressed(BTNRIGHT, 0))
+		{
+			switch(motor)
+			{
+				case 0:
+					OnRev(OUT_A, 50);
+					break;
+				case 1:
+					OnRev(OUT_B, 50);
+					break;
+				case 2:
+					OnRev(OUT_C, 50);
+					break;
+			}
+		}
+		else
+		{
+			Off(OUT_ABC);
+		}
+	}
+}
